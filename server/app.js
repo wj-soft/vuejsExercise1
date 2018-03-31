@@ -21,8 +21,10 @@ var admin = require('./routes/admin');
 
 var app = express();
 var port = 3000;
+var cors = require('cors')
 
 // 미들웨어 셋팅
+app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
