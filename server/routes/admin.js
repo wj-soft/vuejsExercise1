@@ -2,6 +2,24 @@ var express = require('express');
 var router = express.Router();
 var ItemsModel = require('../models/ItemsModel')
 
+var path = require('path');
+var uploadDir = path.join(__dirname, '../photos');
+var fs = require('fs');
+
+
+var multer = require('multer');
+var storage = multer.diskStorage({
+  destination: function (req, file, callback) { //이미지가 저장되는 도착지 지정
+    callback(null, uploadDir);
+  },
+  filename: function (req, file, callback) { // products-날짜.jpg(png) 저장 
+    callback(null, 'no-' + Date.now() + '.' + file.mimetype.split('/')[1]);
+  }
+});
+var upload = multer({ storage: storage });
+
+
+
 router.get('/', function (req, res) {
   res.send('admin');
 });
