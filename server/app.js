@@ -26,6 +26,7 @@ var port = 3000;
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/photos', express.static('photos'));
 
 
 app.get('/', function (req, res) {
