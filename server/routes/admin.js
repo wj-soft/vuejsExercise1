@@ -34,13 +34,21 @@ router.get('/items', function (req,res){
 // 내용추가
 router.post('/item', function (req,res) {
   var item = new ItemsModel({
-    pt: req.body.pt,
+    pt: (req.pt) ? req.pt.filename : "",
     title: req.body.title,
     description: req.body.description
   });
   item.save(function (err) {
     (err) ? console.log(err) : res.json(item)
   });
+})
+
+// 내용삭제
+router.delete('/item/:id', function (req, res) {
+  ItemsModel.remove({ id: req.params.id }, function (err) {
+    console.log(err)
+    res.send("success")
+  })
 })
 
 module.exports = router;
