@@ -67,7 +67,7 @@ export default {
         .then(function(response){console.log(response)})
         .catch(function(err){console.log(err)})
       alert("등록이 완료되었습니다.")
-      this.getItems()
+      location.reload();
     }
   },
   created : function(){
