@@ -10,10 +10,10 @@
         <label class="modal-bg" for="modal-1"></label>
         <div class="modal-body">
           <form action="" method="post" enctype="multipart/form-data">
-            <input type="file" id="pt">
+            <input type="file"  ref="photo" id="pt">
             <label for="paperInputs1"></label>
-            <input type="text" placeholder="Title" id="title">
-            <textarea placeholder="Description" id="description"></textarea>
+            <input type="text" placeholder="Title" id="title" v-model="title">
+            <textarea placeholder="Description" id="description" v-model="description"></textarea>
           </form>
           <label for="modal-1" v-on:click="addItem">Submit</label>
         </div>
@@ -35,34 +35,31 @@
 
 <script>
 import card from './components/card'
-import add from './components/add'
 import axios from 'axios'
 
 export default {
-  name: 'app',
   data () {
     return {
+      title: '',
+      description: '',
       itemList: []
     }
   },
   components : {
-    'card' : card,
-    'add' : add
+    'card' : card
   },
   methods: {
     getItems: function () {
-      // using JSONPlaceholder
       const URI = 'http://localhost:3000/admin/items';
       axios.get(URI).then((response) => {
-        this.itemList = response.data;
-      console.log(this.itemList)
+        this.itemList = response.data.reverse();
       })
     },
     addItem: function () {
       const URI = 'http://localhost:3000/admin/item';
-      const pt = document.getElementById('pt').value
-      const title = document.getElementById('title').value
-      const description = document.getElementById('description').value
+      // const pt = document.getElementById('pt').files[0]
+      const title = this.title
+      const description = this.description
       axios.post(URI, {pt, title, description})
         .then(function(response){console.log(response)})
         .catch(function(err){console.log(err)})
