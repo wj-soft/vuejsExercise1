@@ -18,11 +18,7 @@ export default {
   props: ['itemInfo'],
   methods: {
     removeItem: function(id){
-      const URI = `http://localhost:3000/admin/item/${id}`;
-      axios.delete(URI)
-        .then(function(response){console.log(response)})
-        .catch(function(err){console.log(err)})
-      location.reload();
+      this.$emit('removeItem', id) 
     }
   }
 }

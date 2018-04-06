@@ -21,7 +21,7 @@
     </header>
     <div class="content">
       <div class="content-item">
-        <card v-for="(item, index) in itemList" :key='index' v-bind:itemInfo="itemList[index]"></card>
+        <card v-for="(item, index) in itemList" :key='index' v-bind:itemInfo="itemList[index]" v-on:removeItem="removeItem"></card>
       </div>
     </div>
     <!-- <div class="content">
@@ -60,11 +60,20 @@ export default {
       // const pt = document.getElementById('pt').files[0]
       const title = this.title
       const description = this.description
+      this.itemList.push({pt, title, description})
       axios.post(URI, {pt, title, description})
         .then(function(response){console.log(response)})
         .catch(function(err){console.log(err)})
       alert("등록이 완료되었습니다.")
-      location.reload();
+    },
+    removeItem: function (id) {
+      this.itemList = this.getItems()
+      const URI = `http://localhost:3000/admin/item/${id}`;
+      
+      axios.delete(URI)
+        .then(function(response){console.log(response)})
+        .catch(function(err){console.log(err)})
+
     }
   },
   created : function(){
