@@ -28,7 +28,7 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/photos', express.static('photos'));
+app.use('/uploads', express.static('uploads'));
 
 
 app.get('/', function (req, res) {
