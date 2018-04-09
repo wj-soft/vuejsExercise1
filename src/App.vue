@@ -10,12 +10,12 @@
         <label class="modal-bg" for="modal-1"></label>
         <div class="modal-body">
           <form action="" method="post" enctype="multipart/form-data">
-            <input type="file"  ref="photo" id="pt">
+            <input type="file"  ref="photo" id="pt" @change="fileUpload($event)">
             <label for="paperInputs1"></label>
             <input type="text" placeholder="Title" id="title" v-model="title">
             <textarea placeholder="Description" id="description" v-model="description"></textarea>
           </form>
-          <label for="modal-1" v-on:click="addItem">Submit</label>
+          <label for="modal-1" v-on:click="addItem()">Submit</label>
         </div>
       </div>
     </header>
@@ -40,9 +40,11 @@ import axios from 'axios'
 export default {
   data () {
     return {
+      pt: '',
       title: '',
       description: '',
-      itemList: []
+      itemList: [],
+    
     }
   },
   components : {
@@ -55,11 +57,12 @@ export default {
         this.itemList = response.data.reverse();
       })
     },
-    addItem: function () {
+    addItem: function (event) {
       const URI = 'http://localhost:3000/admin/item';
-      // const pt = document.getElementById('pt').files[0]
+      const pt = this.pt[0]
       const title = this.title
       const description = this.description
+      console.log(pt, title, description)
       this.itemList.push({pt, title, description})
       axios.post(URI, {pt, title, description})
         .then(function(response){console.log(response)})
@@ -74,6 +77,9 @@ export default {
         .then(function(response){console.log(response)})
         .catch(function(err){console.log(err)})
 
+    },
+    fileUpload: function (event) {
+      this.pt = event.target.files[0];
     }
   },
   created : function(){
