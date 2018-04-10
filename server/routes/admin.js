@@ -32,10 +32,10 @@ router.get('/items', function (req,res){
 })
 
 // 내용추가
-router.post('/item', upload.single('pt'), function (req,res) {
-  console.log("!!!", req.body)  //undefined
+router.post('/item', upload.single('photo'), function (req,res) {
+  console.log("!!!", req)  //undefined
   var item = new ItemsModel({
-    pt: (req.pt) ? req.pt.filename : "",
+    // pt: (req.pt) ? req.pt.filename : "",
     title: req.body.title,
     description: req.body.description
   });

@@ -10,7 +10,7 @@
         <label class="modal-bg" for="modal-1"></label>
         <div class="modal-body">
           <form action="" method="post" enctype="multipart/form-data">
-            <input type="file"  ref="photo" id="pt" @change="fileUpload($event)">
+            <input type="file"  ref="photofile" name="photo" id="pt" @change="fileUpload($event)">
             <label for="paperInputs1"></label>
             <input type="text" placeholder="Title" id="title" v-model="title">
             <textarea placeholder="Description" id="description" v-model="description"></textarea>
@@ -59,12 +59,19 @@ export default {
     },
     addItem: function (event) {
       const URI = 'http://localhost:3000/admin/item';
-      const pt = this.pt[0]
+      const fileData = new FormData()
       const title = this.title
       const description = this.description
-      console.log(pt, title, description)
-      this.itemList.push({pt, title, description})
-      axios.post(URI, {pt, title, description})
+
+      // ref로 참조
+      const file = this.$refs.photofile.files[0]
+      //or  @change
+      const file2 = this.pt
+      fileData.append("photo", file)
+      console.log(fileData.has('photo'))
+
+      this.itemList.push({fileData, title, description})
+      axios.post(URI, {fileData, title, description})
         .then(function(response){console.log(response)})
         .catch(function(err){console.log(err)})
       alert("등록이 완료되었습니다.")
@@ -84,6 +91,7 @@ export default {
   },
   created : function(){
     this.getItems()
+    
   }
 
 }
